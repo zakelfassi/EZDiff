@@ -1,3 +1,16 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+.diff-part {
+  display: inline;
+}
+
+.diff-part.added {
+  background-color: rgba(0, 255, 0, 0.3);
+}
+
+.diff-part.removed {
+  background-color: rgba(255, 0, 0, 0.3);
+  text-decoration: line-through;
+}
