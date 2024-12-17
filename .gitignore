@@ -1,65 +1,52 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
+# Dependencies
+node_modules
+.pnp
 .pnp.js
 
-# testing
-/coverage
+# Testing
+coverage
 
-# production
-/build
-/dist/
-/out/
+# Production
+build
+dist
+out
+release
 
-# misc
+# IDEs and editors
+.idea
+.vscode
+*.swp
+*.swo
 .DS_Store
+Thumbs.db
+
+# Environment files
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+debug.log
 
-# Logs
-logs/
-*.log
+# Electron specific
+.electron-builder.env
 
-# Electron
-*.asar
-*.db
-
-# Compiled JavaScript
-*.node
-
-# Editor directories and files
-.idea/
-.vscode/
-*.sublime-workspace
-
-# macOS System files
-.AppleDouble
-.LSOverride
-
-# Thumbnails
+# OS specific
+.DS_Store
+.DS_Store?
 ._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Files that might appear in Dropbox
-.Paper*
-
-# Application specific
-main.mjs
-main.js.map
-icon.icns
-
-# Other custom files or folders
-*.tgz
-temp/
-tmp/
-__pycache__/
-*.py[cod]
-*.so
-*.swp
+# Build specific
+*.tsbuildinfo
+.eslintcache
