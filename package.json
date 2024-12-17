@@ -12,7 +12,9 @@
     "test": "vitest",
     "electron:dev": "concurrently \"vite\" \"electron .\"",
     "electron:build": "vite build && electron-builder",
-    "electron:preview": "electron ."
+    "electron:preview": "electron .",
+    "release": "electron-builder -p always",
+    "git:release": "git tag -a v$npm_package_version -m \"Release $npm_package_version\" && git push origin v$npm_package_version"
   },
   "dependencies": {
     "diff": "^5.1.0",
@@ -50,8 +52,16 @@
     ]
   },
   "build": {
-    "appId": "com.ezdiff.app",
+    "appId": "com.zakelfassi.ezdiff",
     "productName": "EZDiff",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": [
@@ -65,13 +75,17 @@
         "zip"
       ]
     },
-    "files": [
-      "dist/**/*",
-      "electron/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets",
-      "output": "release"
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Development"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "zakelfassi",
+      "repo": "ezdiff"
     }
   }
 }
