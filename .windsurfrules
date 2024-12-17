@@ -1,0 +1,142 @@
+# Windsurf Project Configuration
+project:
+  name: ezdiff
+  version: 1.0.0
+  description: "A modern diff tool"
+
+# Build Configuration
+build:
+  # Common build settings
+  common:
+    node_version: "18.x"
+    package_manager: yarn
+
+  # Desktop App Build Configuration
+  desktop:
+    framework: electron
+    bundler: electron-builder
+    
+    # macOS specific configuration
+    macos:
+      target:
+        - dmg
+        - zip
+      category: public.app-category.developer-tools
+      icon: build/icon.icns
+      identity: null  # Set to your Apple Developer ID for signing
+      notarize: false  # Set to true if you want to notarize the app
+    
+    # Windows specific configuration
+    windows:
+      target:
+        - nsis
+        - zip
+      icon: build/icon.ico
+      certificateFile: null  # Set path to your code signing certificate
+      certificatePassword: null
+
+# Development Configuration
+dev:
+  port: 3000
+  hot_reload: true
+  devtools: true
+
+# Production Configuration
+production:
+  optimization: true
+  sourceMap: false
+  
+# Dependencies
+dependencies:
+  required:
+    - electron
+    - electron-builder
+    - electron-notarize  # For macOS notarization
+
+# Scripts
+scripts:
+  dev: "electron-vite dev"
+  build: "electron-vite build"
+  preview: "electron-vite preview"
+  package:
+    mac: "electron-builder --mac"
+    win: "electron-builder --win"
+    all: "electron-builder -mw"
+
+# Build Instructions
+instructions:
+  setup: |
+    1. Install Node.js 18.x or later
+    2. Install yarn globally: npm install -g yarn
+    3. Run 'yarn install' to install dependencies
+    4. For development: yarn dev
+    5. For production: yarn build
+  
+  build_installers: |
+    # For macOS:
+    1. Ensure Xcode is installed
+    2. Set up Apple Developer ID (for signing)
+    3. Run: yarn package:mac
+    
+    # For Windows:
+    1. Install Windows Build Tools
+    2. Run: yarn package:win
+    
+    # For both platforms:
+    Run: yarn package:all
+
+# Additional Settings
+settings:
+  updateCheck: true
+  crashReporting: true
+  analytics: false
+
+# Build Requirements
+requirements:
+  macos:
+    system:
+      - macOS 10.15 (Catalina) or later
+      - Xcode 12.0 or later (for signing and notarization)
+      - Apple Developer Account (for distribution)
+    tools:
+      - Node.js 18.x or later
+      - Yarn package manager
+      - Xcode Command Line Tools
+      - Apple Developer Certificate (for signing)
+    environment:
+      - APPLE_ID: Your Apple ID email
+      - APPLE_APP_SPECIFIC_PASSWORD: App-specific password
+      - CSC_LINK: Path to certificate (optional)
+      - CSC_KEY_PASSWORD: Certificate password (optional)
+    
+  windows:
+    system:
+      - Windows 10 or later
+      - PowerShell 5.0 or later
+    tools:
+      - Node.js 18.x or later
+      - Yarn package manager
+      - Windows Build Tools (npm install --global windows-build-tools)
+      - Visual Studio Build Tools 2019 or later
+        - Desktop development with C++
+        - Windows 10 SDK
+    environment:
+      - CSC_LINK: Path to certificate (optional)
+      - CSC_KEY_PASSWORD: Certificate password (optional)
+    
+  signing:
+    macos:
+      development:
+        - Generate Developer ID Application certificate
+        - Enable App Sandbox capabilities
+        - Configure entitlements
+      distribution:
+        - Enroll in Apple Developer Program
+        - Create App Store Connect record
+        - Configure notarization credentials
+    windows:
+      development:
+        - Generate self-signed certificate
+      distribution:
+        - Obtain EV Code Signing Certificate
+        - Configure certificate in build settings

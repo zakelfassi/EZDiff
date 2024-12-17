@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as Diff from "diff";
 
 const DiffModes = {
@@ -17,22 +11,8 @@ const TextDiffApp = () => {
   const [text1, setText1] = useState("");
   const [text2, setText2] = useState("");
   const [diffResult, setDiffResult] = useState([]);
-  const [diffMode, setDiffMode] = useState(DiffModes.WORDS);
-  const [isRealTime, setIsRealTime] = useState(true);
-  const text2Ref = useRef(null);
-
-  const handleResize = useCallback(() => {
-    const textareas = document.querySelectorAll("textarea");
-    textareas.forEach((textarea) => {
-      textarea.style.height = `${window.innerHeight - 200}px`;
-    });
-  }, []);
-
-  useEffect(() => {
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [handleResize]);
+  const [diffMode, setDiffMode] = useState(DiffModes.CHARS);
+  const [isRealTime, setIsRealTime] = useState(false);
 
   const computeDiff = useCallback(() => {
     if (!text1.trim() && !text2.trim()) {
@@ -67,14 +47,7 @@ const TextDiffApp = () => {
     setDiffResult([]);
   };
 
-  const handleCopy = () => {
-    const diffText = diffResult.map((part) => part.value).join("");
-    navigator.clipboard.writeText(diffText).then(() => {
-      alert("Diff result copied to clipboard!");
-    });
-  };
-
-  const renderDiff = useMemo(() => {
+  const renderDiff = () => {
     return diffResult.map((part, index) => (
       <span
         key={index}
@@ -85,10 +58,6 @@ const TextDiffApp = () => {
         {part.value}
       </span>
     ));
-  }, [diffResult]);
-
-  const handleText2Change = (e) => {
-    setText2(e.target.textContent);
   };
 
   return (
@@ -123,11 +92,11 @@ const TextDiffApp = () => {
             id="text1"
             value={text1}
             onChange={(e) => setText1(e.target.value)}
-            className="w-full p-2 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-full p-2 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Paste original text here"
           />
         </div>
-        <div className="flex-1 relative">
+        <div className="flex-1">
           <label htmlFor="text2" className="block mb-2 font-semibold">
             Modified Text:
           </label>
@@ -135,22 +104,15 @@ const TextDiffApp = () => {
             id="text2"
             value={text2}
             onChange={(e) => setText2(e.target.value)}
-            className="w-full p-2 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-full p-2 border rounded resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Paste modified text here"
-            style={{ color: "transparent", caretColor: "black" }}
           />
-          <div
-            ref={text2Ref}
-            contentEditable
-            onInput={handleText2Change}
-            className="absolute top-8 left-0 w-full h-full p-2 overflow-auto whitespace-pre-wrap"
-            style={{ backgroundColor: "transparent" }}
-          >
-            {renderDiff}
-          </div>
         </div>
       </div>
-      <div className="flex space-x-4 mb-4">
+      <div className="flex-1 p-4 bg-white border rounded overflow-auto whitespace-pre-wrap">
+        {renderDiff()}
+      </div>
+      <div className="flex space-x-4 mt-4">
         <button
           onClick={computeDiff}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
@@ -162,12 +124,6 @@ const TextDiffApp = () => {
           className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
         >
           Clear
-        </button>
-        <button
-          onClick={handleCopy}
-          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
-        >
-          Copy Diff
         </button>
       </div>
     </div>
