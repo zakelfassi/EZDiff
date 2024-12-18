@@ -1,6 +1,6 @@
 {
   "name": "ezdiff",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Easy Text Comparison Tool",
   "author": "Zak El Fassi <zakelfassi@gmail.com>",
   "type": "module",
