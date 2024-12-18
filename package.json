@@ -1,9 +1,12 @@
 {
   "name": "ezdiff",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Easy Text Comparison Tool",
   "author": "Zak El Fassi <zakelfassi@gmail.com>",
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "main": "electron/main.js",
   "scripts": {
     "dev": "vite",
