@@ -2,7 +2,7 @@
 
 A modern, user-friendly diff tool built with Electron and React.
 
-![EZdiff Screenshot](assets/screenshot-dec-17-2024.jpeg)
+![EZdiff Screenshot](screenshot-dec-17-2024.png)
 
 ## Features
 
